@@ -1,7 +1,9 @@
 import app from './app';
 import config from './config/config';
+import { connectDB } from './config/database';
 
-const PORT = config.port;
-app.listen(PORT,()=>{
-    console.log(`Servidor corriendo en port ${PORT}`);
+connectDB(); 
+
+app.listen(config.port,()=>{       
+    console.log(`Servidor corriendo en port ${config.port}`);    
 })
