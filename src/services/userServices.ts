@@ -5,4 +5,6 @@ const users: UserEntry[] = data_users as UserEntry[];
 
 export const getUsers = (): UserEntry[] => users;
 
-export const getNoSensitiveInfoUsers = (): NonSensitiveInfoUser[] => users
+export const getNoSensitiveInfoUsers = (): NonSensitiveInfoUser[] => users;
+
+

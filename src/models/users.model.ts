@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database';
 
-const User = sequelize.define('User', {
+const UserModel = sequelize.define('User', {
   id: {
     type: DataTypes.INTEGER.UNSIGNED,
     autoIncrement: true,
@@ -16,7 +16,7 @@ const User = sequelize.define('User', {
     allowNull: false,
   },
   gender: {
-    type: DataTypes.ENUM('Female', 'Male', 'Bigender', 'Genderfluid'),
+    type: DataTypes.ENUM('Femenino', 'Masculino', 'No binario'),
     allowNull: false,
   },
   avatar: {
@@ -41,5 +41,4 @@ const User = sequelize.define('User', {
   timestamps: true,
 });
 
-
-export default User;
+export default UserModel;

@@ -1,4 +1,4 @@
-export type Gender = 'Female' | 'Male' | 'Bigender' | 'Genderfluid';
+export type Gender = 'Femenino' | 'Masculino' | 'No binario';
 
 export interface UserEntry {
     id:         number
