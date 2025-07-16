@@ -15,6 +15,6 @@ export const UserSchema = z.object({
 export const NonSensitiveInfoUserShema = z.object({
   id:           z.number(),
   first_name:   z.string().min(2),
-  avatar:       z.string().url().optional(),
+  avatar:       z.string().url().nullable().optional(),
   email:        z.string().email(),
 })

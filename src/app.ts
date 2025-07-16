@@ -22,9 +22,7 @@ app.use('/api', api_routes);
 
 app.use((_req,res)=>{
     console.log('/404');
-    return res.json({
-        mensaje:        'Respuesta 404 '
-    });
+    return res.json({ mensaje: 'Respuesta 404 '});
 });
 
 export default app;
