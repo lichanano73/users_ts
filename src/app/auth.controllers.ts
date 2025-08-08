@@ -36,6 +36,7 @@ export const login = async (req: Request, res: Response) => {
 
     const result_user = NonSensitiveInfoUserShema.safeParse(user_result);
     if (!result_user.success) throw {
+      status: 500,
       message: 'Ocurrió un error al validar el esquema',
       details: result_user.error.errors,
     }  

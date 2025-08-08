@@ -1,10 +1,11 @@
 import express from 'express';
 import * as us_con from '../app/users.controllers';
 //import * as us_serv from '../services/userServices';
+import { verifyToken } from '../middlewares/auth';
 
 const router = express.Router();
 
-router.get('/', us_con.getAllUsers);
+router.get('/', verifyToken, us_con.getAllUsers);
 router.post('/add', us_con.addUser);
 
 /* 

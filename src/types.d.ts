@@ -14,3 +14,9 @@ export interface UserEntry {
 export type NonSensitiveInfoUser  = Pick<UserEntry, 'id' | 'first_name' | 'email' | 'avatar'>
 
 export type OmitSensitiveInfoUser = Omit<UserEntry, 'password'>
+
+export interface ProjectUser {
+    id:         number
+    project:    string
+    rol:        string
+}
