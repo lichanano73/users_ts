@@ -19,4 +19,4 @@ export interface ProjectUser {
     id:         number
     project:    string
     rol:        string
-}
+} 

@@ -5,11 +5,20 @@ import { OmitSensitiveInfoUser } from '../types';
 import bcrypt from 'bcrypt';
 import { UserSchema } from '../validators/user.validator';
 
-export const getAllUsers = async (_req: Request, res: Response) => {
+export const getAllUsers = async (req: Request, res: Response) => {
   try {
 
+    // Pagination and filters 
+    const { page = 1, limit = 10, email = "" } = req.query;
+    const offset = (Number(page) - 1) * Number(limit);
+
+    const whereClause = email ? { email: email } : {};
+
     const users = await UserModel.findAll({
-      attributes: ['id', 'first_name', 'email', 'avatar'],
+      where:      whereClause,
+      attributes: ['id', 'first_name', 'email', 'avatar', 'birth'],
+      limit:      Number(limit),
+      offset:     offset,
     });
 
     return res.status(200).json(users);

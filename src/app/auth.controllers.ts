@@ -10,6 +10,7 @@ import jwt from "jsonwebtoken"
 /*  */
 
 export const login = async (req: Request, res: Response) => {
+  console.log('--- login ---')
 
   try {
 
@@ -41,7 +42,7 @@ export const login = async (req: Request, res: Response) => {
       details: result_user.error.errors,
     }  
 
-    const token_generate = jwt.sign({ id: user_result.id }, config.jwt_secret, { expiresIn: '24h' })
+    const token_generate = jwt.sign({ id: user_result.id, email: user_result.email }, config.jwt_secret, { expiresIn: '24h' })
 
     return res.status(200).json({
       usuario: result_user.data,
@@ -54,13 +55,38 @@ export const login = async (req: Request, res: Response) => {
   }
 }
 
-export const logout = async (_req:Request, res:Response) => {
+
+export const verifyToken = async (req: Request, res: Response) => {
+  console.log('--- verifyToken ---')
+  
+
   try {
 
-    return res.json('Soy Logout')
-    
+    const authHeader = req.headers.authorization
+    if (!authHeader?.startsWith('Bearer ')) throw { status: 401, message: 'Token no proporcionado' }
+
+    const token   = authHeader.split(' ')[1]
+    const decoded = jwt.verify(token, config.jwt_secret as string) as { id: number }
+
+    console.log('decoded', decoded)
+    if (!decoded.id) throw { status: 401, message: 'Token inválido' }
+
+    const myUser = await UserModel.findOne({ where: { id: decoded.id } })
+    if (!myUser) throw { status: 500, message: 'Usuario no encontrado' } 
+
+    const user_result = myUser.dataValues
+    const result_user = NonSensitiveInfoUserShema.safeParse(user_result);
+    if (!result_user.success) throw {
+      status: 500,
+      message: 'Ocurrió un error al validar el esquema',
+      details: result_user.error.errors,
+    }  
+
+    return res.status(200).json(result_user.data);
+
   } catch (error: any) {
-    const status = error.status || 500;
-    return res.status(status).json({ error: error.message || 'Error interno' });
+    const status = error.status || 500
+    return res.status(status).json({ error: error || 'Error interno' })
   }
+  
 }
