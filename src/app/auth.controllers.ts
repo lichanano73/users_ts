@@ -58,7 +58,6 @@ export const login = async (req: Request, res: Response) => {
 
 export const verifyToken = async (req: Request, res: Response) => {
   console.log('--- verifyToken ---')
-  
 
   try {
 

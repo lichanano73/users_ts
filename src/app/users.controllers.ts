@@ -62,3 +62,44 @@ export const addUser = async (req: Request, res: Response) => {
     return res.status(status).json({ error: error || 'Error interno' })
   }
 };
+
+/* ============================
+   UPDATE USER: PUT /users/:id
+   ============================ */
+const UpdateUserSchema = UserSchema.partial(); // todos opcionales
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    if (Number.isNaN(id)) return res.status(400).json({ error: 'ID inválido' });
+
+    // Validación (parcial)
+    const parsed = UpdateUserSchema.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({
+        message: 'Ocurrió un error al validar el esquema',
+        details: parsed.error.errors,
+      });
+    }
+    const userData = parsed.data;
+
+    const user = await UserModel.findByPk(id);
+    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+    // No permitir cambiar id explícitamente si llegara en el body
+    // @ts-ignore
+    if ('id' in userData) delete userData.id;
+    if ('email' in userData) delete userData.email;
+    if ('password' in userData) delete userData.password;
+
+    await user.update(userData);
+
+    const { password, ...clean } = user.toJSON();
+    const result_user: OmitSensitiveInfoUser = clean;
+
+    return res.status(200).json(result_user);
+  } catch (error: any) {
+    const status = error.status || 500;
+    return res.status(status).json({ error: error || 'Error interno' });
+  }
+};

@@ -27,6 +27,10 @@ const UserModel = sequelize.define('User', {
     type: DataTypes.DATEONLY,
     allowNull: true,
   },
+  contact: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,

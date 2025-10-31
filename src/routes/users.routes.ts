@@ -4,8 +4,9 @@ import * as us_con from '../app/users.controllers';
 
 const router = express.Router();
 
-router.get('/', us_con.getAllUsers);
-router.post('/add', us_con.addUser);
+router.get('/',       us_con.getAllUsers);
+router.post('/add',   us_con.addUser);
+router.put('/:id',    us_con.updateUser);
 
 /* 
 router.get('/', (_req,res)=>{
