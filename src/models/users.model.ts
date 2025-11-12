@@ -40,6 +40,11 @@ const UserModel = sequelize.define('User', {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false,
+  },  
+  type: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
   },
   password: {
     type: DataTypes.STRING,

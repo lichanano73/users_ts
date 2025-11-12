@@ -9,6 +9,7 @@ export const UserSchema = z.object({
   contact:      z.string().min(8, { message: 'Número demasiado corto' }).regex(/^[0-9+\-\s()]*$/, { message: 'Formato de número inválido' }).optional().nullable(),
   email:        z.string().email(),
   password:     z.string().min(6),
+  type:         z.string().optional()
 });
 
 export const NonSensitiveInfoUserShema = z.object({
@@ -18,5 +19,6 @@ export const NonSensitiveInfoUserShema = z.object({
   gender:       z.enum(['Femenino', 'Masculino', 'No binario']).optional(),
   email:        z.string().email(),
   birth:        z.string().refine((date) => !isNaN(Date.parse(date)), { message: 'Fecha inválida' }).optional().nullable(),
-  contact:      z.string().min(8, { message: 'Número demasiado corto' }).regex(/^[0-9+\-\s()]*$/, { message: 'Formato de número inválido' }).optional().nullable()
+  contact:      z.string().min(8, { message: 'Número demasiado corto' }).regex(/^[0-9+\-\s()]*$/, { message: 'Formato de número inválido' }).optional().nullable(),
+  type:         z.string().optional()
 })

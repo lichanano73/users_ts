@@ -81,16 +81,24 @@ export const updateUser = async (req: Request, res: Response) => {
         details: parsed.error.errors,
       });
     }
-    const userData = parsed.data;
+
+    const userData = parsed.data;    
+
+    // - Admin:    puede actualizar a cualquiera.
+    // - No admin: solo puede actualizarse a sí mismo.
+    if (res.locals.user.type !== 'admin' && res.locals.user.id !== id) {
+      return res.status(403).json({ error: 'No tienes permiso para actualizar este usuario' });
+    }
 
     const user = await UserModel.findByPk(id);
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
 
     // No permitir cambiar id explícitamente si llegara en el body
     // @ts-ignore
-    if ('id' in userData) delete userData.id;
-    if ('email' in userData) delete userData.email;
+    if ('id' in userData)       delete userData.id;
+    if ('email' in userData)    delete userData.email;
     if ('password' in userData) delete userData.password;
+    if ('type' in userData)     delete userData.type;
 
     await user.update(userData);
 
@@ -98,8 +106,11 @@ export const updateUser = async (req: Request, res: Response) => {
     const result_user: OmitSensitiveInfoUser = clean;
 
     return res.status(200).json(result_user);
+
   } catch (error: any) {
+
     const status = error.status || 500;
     return res.status(status).json({ error: error || 'Error interno' });
+    
   }
 };

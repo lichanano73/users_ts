@@ -41,8 +41,8 @@ export const login = async (req: Request, res: Response) => {
       message: 'Ocurrió un error al validar el esquema',
       details: result_user.error.errors,
     }  
-
-    const token_generate = jwt.sign({ id: user_result.id, email: user_result.email }, config.jwt_secret, { expiresIn: '24h' })
+    
+    const token_generate = jwt.sign({ id: user_result.id, email: user_result.email, type: user_result.type }, config.jwt_secret, { expiresIn: '24h' })
 
     return res.status(200).json({
       usuario: result_user.data,
@@ -75,6 +75,7 @@ export const verifyToken = async (req: Request, res: Response) => {
 
     const user_result = myUser.dataValues
     const result_user = NonSensitiveInfoUserShema.safeParse(user_result);
+    
     if (!result_user.success) throw {
       status: 500,
       message: 'Ocurrió un error al validar el esquema',
