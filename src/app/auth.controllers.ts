@@ -7,7 +7,7 @@ import config from '../config/config';
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
-/*  */
+/* 1.1 Login */
 
 export const login = async (req: Request, res: Response) => {
   console.log('--- login ---')
@@ -56,6 +56,7 @@ export const login = async (req: Request, res: Response) => {
 }
 
 
+/* 1.2 Verify Token */
 export const verifyToken = async (req: Request, res: Response) => {
   console.log('--- verifyToken ---')
 

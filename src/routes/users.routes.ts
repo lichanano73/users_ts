@@ -5,9 +5,9 @@ import { isAdmin } from '../middlewares/auth';
 
 const router = express.Router();
 
-router.get('/',     isAdmin,  us_con.getAllUsers);
-router.post('/add', isAdmin,  us_con.addUser);
-router.put('/:id',  us_con.updateUser);
+router.get('/',     isAdmin,  us_con.getAllUsers);  // ✅ 2.1 Get All Users
+router.post('/add', isAdmin,  us_con.addUser);      // ✅ 2.2 Add User
+router.put('/:id',  us_con.updateUser);             // ✅ 2.3 Update User
 
 /* 
 router.get('/', (_req,res)=>{
